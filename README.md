@@ -60,6 +60,7 @@ my-climate/
 ├── vite.config.ts          # Vite configuration
 └── README.md               # Project documentation
 
+
 Usage
 
 Fetch Weather Data: Use Tanstack Query hooks in src/hooks/ to fetch weather data from the configured API.
