@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useTheme } from '../../context/theme-provider'
+import { useTheme } from '../context/theme-provider'
 import { Sun, Moon } from "lucide-react"
 
 
