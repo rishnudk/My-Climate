@@ -1,12 +1,13 @@
 import type { WeatherData } from "@/api/types"
 import { format } from "date-fns";
 import { Compass, Gauge, Sunrise, Sunset } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
-interface WeeatherDetailsProps {
+interface WeatherDetailsProps {
     data : WeatherData
 }
 
-const WeatherDetails = ({data} : WeeatherDetailsProps) => {
+const WeatherDetails = ({data} : WeatherDetailsProps) => {
 
     const { wind, main, sys} = data;
 
@@ -51,9 +52,33 @@ const WeatherDetails = ({data} : WeeatherDetailsProps) => {
 
     ]
   return (
-    <div>
-      weatherdetails
+    <Card>
+  <CardHeader>
+    <CardTitle>Weather Details</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <div className="grid gap-6 sm:grid-cols-2">
+        {details.map((detail) => {
+            return (
+               
+                <div  key={detail.title} 
+                className=" flex items-center gap-3 rounded-lg border p-4">
+                    <detail.icon className={`h-5 w-5 ${detail.color}`}  />
+                    <div>
+                        <p className="text-sm font-medium leading-none">
+                            {detail.title}
+
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                        {detail.value}
+                        </p>
+                    </div>
+                </div>
+            )
+        })}
     </div>
+  </CardContent>
+</Card>
   )
 }
 
