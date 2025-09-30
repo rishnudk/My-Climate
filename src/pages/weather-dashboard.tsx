@@ -115,7 +115,8 @@ const WeatherDashboard = () => {
   const location = locationQuery.data?.[0]
   const locationName = locationQuery.data?.[0]?.name || "Unknown Location";
 
-  return (
+  return ( 
+
     <div className="space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
@@ -149,6 +150,7 @@ const WeatherDashboard = () => {
      </div>
       </div>
     </div>
+    
   );
 };
 

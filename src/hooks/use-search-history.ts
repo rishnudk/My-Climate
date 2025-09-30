@@ -17,7 +17,7 @@ export function useSearchHistory() {
    const [history, setHistory] =  useLocalStorege<SearchHistoryItem[]>("search-history", []);
 
    const historyQuery =  useQuery({
-    queryKey: ["search-histiry"],
+    queryKey: ["search-history"],
     queryFn: () => history,
     initialData: history,
    });
@@ -26,7 +26,7 @@ export function useSearchHistory() {
    const queryClient = useQueryClient();
    const addToHistory = useMutation( {
         mutationFn: async (
-            search: Omit<SearchHistoryItem, "Id" | "SearchedAt" >
+            search: Omit<SearchHistoryItem, "id" | "searchedAt" >
         ) => {
             const newSearch: SearchHistoryItem = {
             ...search,
@@ -54,8 +54,16 @@ export function useSearchHistory() {
         return [];
     },
 
+onSuccess: () => {
+      queryClient.setQueryData(["search-history"], []);
+    },
+  });
 
-   })
 
-   
+  return {
+    history,
+    addToHistory,
+    clearHistory,
+    historyQuery,
+  };
 }
