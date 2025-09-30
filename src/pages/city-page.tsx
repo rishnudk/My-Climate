@@ -2,6 +2,7 @@ import CurrentWeather from "@/components/current-weather";
 import HourlyTemprature from "@/components/hourly-temprature";
 import WeatherSkeleton from "@/components/loading-skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import FavoriteButton from "@/components/ui/favorite-button";
 import WeatherDetails from "@/components/weather-details";
 import WeatherForecast from "@/components/weather-forecast";
 import { useForecastQuery, useWeatherQuery } from "@/hooks/use-weather";
@@ -41,6 +42,9 @@ const CityPage = () => {
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold tracking-tight">{params.cityName}, {weatherQuery.data.sys.country} </h1>
         {/* <div>fav button</div> */}
+        
+        <FavoriteButton data={weatherQuery.data} />
+
       </div>
 
       {/* Weather info */}

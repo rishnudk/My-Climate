@@ -9,11 +9,12 @@ import {
   CommandList,
   CommandSeparator,
 } from "./ui/command";
-import { Clock, Loader2, Search, XCircle } from "lucide-react";
+import { Clock, Loader2, Search, Star, XCircle } from "lucide-react";
 import { useLocationSearch } from "@/hooks/use-weather";
 import { useNavigate } from "react-router-dom";
-import { useSearchHistory , } from "../hooks/use-search-history";
+import { useSearchHistory } from "../hooks/use-search-history";
 import { format } from "date-fns";
+import { useFavorite } from "@/hooks/use-favorite";
 
 const CitySearch = () => {
   const [open, setOpen] = useState(false);
@@ -24,7 +25,7 @@ const CitySearch = () => {
   const { history, clearHistory, addToHistory } = useSearchHistory();
 
   const handleSelect = (cityData: string) => {
-    const [lat, lon, name, country] = cityData.split("|");
+    const [lat, lon, name, country] = cityData.split("|").map((p) => p.trim());
 
     // add to search history
     addToHistory.mutate({
@@ -39,6 +40,9 @@ const CitySearch = () => {
     navigate(`/city/${name}?lat=${lat}&lon=${lon}`);
   };
   console.log(locations);
+
+
+  const {favorites} = useFavorite();
 
   return (
     <>
@@ -64,7 +68,44 @@ const CitySearch = () => {
 
           <CommandGroup heading="Favourites">
             <CommandItem></CommandItem>
-          </CommandGroup>
+          </CommandGroup> 
+
+
+
+
+
+            {favorites.length > 0 && (
+              <CommandGroup heading="Favorites">
+                
+
+                {favorites.map((location) => {
+                  return (
+                    <CommandItem
+                      key={`${location.id}`}
+                      value={`${location.lat}|${location.lon}|${location.name}|${location.country}`}
+                      onSelect={handleSelect}
+                    >
+                      <Star className="mr-2 h-4 w-4" />
+                      <span>{location.name}</span>
+                      {location.state && (
+                        <span className="text-sm text-yellow-500">
+                          , {location.state}
+                        </span>
+                      )}
+                      <span className="text-sm text-muted-foreground">
+                        {" "}
+                        , {location.country}
+                      </span>
+
+                     
+                    </CommandItem>
+                  );
+                })}
+              </CommandGroup>
+          )}
+
+
+
 
 
           {history.length > 0 && (
@@ -73,37 +114,46 @@ const CitySearch = () => {
               <CommandGroup>
                 <div className="flex items-center justify-between px-2 my-2">
                   <p>Recent Searches</p>
-                  <Button variant="ghost"
-                  size="sm"
-                  onClick={() => clearHistory.mutate()}>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => clearHistory.mutate()}
+                  >
                     <XCircle className="h-4 w-4" />
                     Clear
                   </Button>
                 </div>
-                {history.map((location ) => {
-                  return   <CommandItem
-                    key={`${location.lat} - ${location.lon}`}
-                    value={`${location.lat} | ${location.lon} | ${location.name} | ${location.country} `}
-                    onSelect={handleSelect}
-                  >
-                    <Clock className="mr-2 h-4 w-4" />
-                    <span>{location.name}</span>
-                    {location.state && (
+                {history.map((location) => {
+                  return (
+                    <CommandItem
+                      key={`${location.lat}-${location.lon}`}
+                      value={`${location.lat}|${location.lon}|${location.name}|${location.country}`}
+                      onSelect={handleSelect}
+                    >
+                      <Clock className="mr-2 h-4 w-4" />
+                      <span>{location.name}</span>
+                      {location.state && (
+                        <span className="text-sm text-muted-foreground">
+                          , {location.state}
+                        </span>
+                      )}
                       <span className="text-sm text-muted-foreground">
-                        , {location.state}
+                        {" "}
+                        , {location.country}
                       </span>
-                    )}
-                    <span className="text-sm text-muted-foreground">
-                      {" "}
-                      , {location.country}
-                    </span>
-                    <span className="ml-auto text-xs text-muted-foreground">
-                      {format(location.searchedAt, "MMM d, h:mm a")}
 
-                    </span>
-                  </CommandItem>
+                      {location.searchedAt &&
+                      !isNaN(Number(location.searchedAt)) ? (
+                        <span className="ml-auto text-xs text-muted-foreground">
+                          {format(
+                            new Date(Number(location.searchedAt)),
+                            "MMM d, h:mm a"
+                          )}
+                        </span>
+                      ) : null}
+                    </CommandItem>
+                  );
                 })}
-               
               </CommandGroup>
             </>
           )}
