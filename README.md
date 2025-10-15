@@ -39,25 +39,6 @@ npm run dev
 
 Open http://localhost:5173 (or the port specified by your setup) in your browser.
 
-Project Structure
-my-climate/
-├── public/                 # Static assets
-├── src/
-│   ├── components/         # Reusable components (Shadcn-based)
-│   ├── hooks/              # Custom Tanstack Query hooks
-│   ├── pages/              # Page components
-│   ├── charts/             # Recharts components for weather data visualization
-│   ├── styles/             # Tailwind CSS configurations
-│   ├── types/              # TypeScript type definitions
-│   ├── App.tsx             # Main app component
-│   ├── main.tsx            # Entry point
-│   └── index.css           # Global styles (Tailwind)
-├── .env                    # Environment variables
-├── .gitignore              # Git ignore file
-├── package.json            # Project dependencies and scripts
-├── tsconfig.json           # TypeScript configuration
-├── vite.config.ts          # Vite configuration
-└── README.md               # Project documentation
 
 
 Usage
@@ -74,13 +55,4 @@ npm run build: Build the app for production.
 npm run lint: Run ESLint for code quality.
 npm run preview: Preview the production build locally.
 
-Contributing
 
-Fork the repository.
-Create a feature branch (git checkout -b feature/YourFeature).
-Commit changes (git commit -m "Add your feature").
-Push to the branch (git push origin feature/YourFeature).
-Open a pull request.
-
-License
-This project is licensed under the MIT License.
